@@ -1,10 +1,22 @@
 import React, { useState } from 'react'
+import { getDatabase,ref,set } from 'firebase/database';
+import { app } from '../firebase';
 
 import { SubHeading } from '../components';
 import { images } from '../constants';
 import './Book.css';
+import { GiMailShirt } from 'react-icons/gi';
+
+const db=getDatabase(app);
 
 const Book = () => {
+
+  const putdata=()=>{
+    set(ref(db, 'book/'), {
+      username: "Gaurav",
+      email: "gauravshirke895@gmail.com"
+    });
+  }
 
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -108,7 +120,7 @@ const Book = () => {
 
       </div>
   
-      <button type="button" className="custom__button" style={{ marginTop: '2rem' }}>Appointment</button>
+      <button type="button" className="custom__button" style={{ marginTop: '2rem' }} onClick={putdata}>Appointment</button>
   
     </div>
 
