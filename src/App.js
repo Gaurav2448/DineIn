@@ -1,22 +1,33 @@
 import React from 'react';
 
-import { AboutUs, Chef, FindUs, Footer, Gallery, Header, Intro, Laurels, SpecialMenu } from './container';
 import { Navbar } from './components';
+import Home from './Routes/Home'
+import Book from './Routes/Book'
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AboutUs, Footer, Laurels, SpecialMenu } from './container';
 
 
 const App = () => (
   <div>
-    <Navbar />
-    <Header />
-    <AboutUs />
-    <SpecialMenu />
-    <Chef />
-    <Intro />
-    <Laurels />
-    <Gallery />
-    <FindUs />
-    <Footer />
+    <BrowserRouter>
+      
+      <Navbar/>
+      
+        <Routes>
+
+          <Route path='/Home' element={<Home/>}/>
+          <Route path='/About' element={<AboutUs/>}/>
+          <Route path='/Menu' element={<SpecialMenu/>}/>
+          <Route path='/Awards' element={<Laurels/>}/>
+          <Route path='/Book' element={<Book/>}/>
+
+        </Routes>
+
+        <Footer/>
+    
+    </BrowserRouter>
+
   </div>
 );
 

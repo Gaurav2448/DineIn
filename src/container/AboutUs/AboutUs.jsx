@@ -2,9 +2,17 @@ import React from 'react';
 
 import { images } from '../../constants'
 
+import Chef from '../Chef/Chef';
+
 import './AboutUs.css';
+import Gallery from '../Gallery/Gallery';
+import Footer from '../Footer/Footer';
+import Laurels from '../Laurels/Laurels';
+import Intro from '../Intro/Intro';
 
 const AboutUs = () => (
+
+  <>
 
   <div className="app__aboutus app__bg flex__center section__padding" id="aboutus">
     
@@ -44,6 +52,14 @@ const AboutUs = () => (
     </div>
 
   </div>
+
+  <Chef/>
+  <Intro/>
+  
+
+  </>
+
+
 );
 
 export default AboutUs;
