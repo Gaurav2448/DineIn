@@ -1,23 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import { getAuth ,createUserWithEmailAndPassword} from "firebase/auth";
-import { app } from "../firebase";
-
-const auth=getAuth(app);
+import { useFirebase } from "../context/Firebase";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage=()=>{
+    const firebase=useFirebase();
+    console.log(firebase);
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("")
-    const createUser=()=>{
-        createUserWithEmailAndPassword(auth,email,password).then(value=>alert("success"));
-    }
+    const navigate=useNavigate();
+   
     return (
         <div className="signup-page">
-            <label htmlFor="">Email</label>
-            <input onChange={e=>setEmail(e.target.value)} value={email} type="email" required placeholder="Enter your email" />
-            <label htmlFor="">Password</label>
-            <input  onChange={e=>setPassword(e.target.value)} value={password} type="password" required placeholder="Enter your password"/>
-            <button onClick={createUser}>Signup</button>
+            <br />
+            <label htmlFor="email">Email</label>
+            <input id="email" onChange={e=>setEmail(e.target.value)} value={email} type="email" required placeholder="Enter your email" />
+            <br /><br />
+            <label htmlFor="pass">Password</label>
+            <input id="pass" onChange={e=>setPassword(e.target.value)} value={password} type="password" required placeholder="Enter your password"/>
+            <br /><br />
+            <button onClick={()=>{firebase.signupGoogle();navigate('/')}}>Signup with Google</button>
+            <br />
+            <button onClick={()=>{firebase.signupuser(email,password);navigate('/login')}}>Signup</button>
         </div>
     )
 }

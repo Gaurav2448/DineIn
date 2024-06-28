@@ -5,7 +5,7 @@ import { app } from '../firebase';
 import { SubHeading } from '../components';
 import { images } from '../constants';
 import './Book.css';
-import { GiMailShirt } from 'react-icons/gi';
+// import { GiMailShirt } from 'react-icons/gi';
 
 const db=getDatabase(app);
 
