@@ -18,9 +18,9 @@
 
 .app__wrapper {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-
+  justify-items: center;
   min-height: 100vh;
 }
 
@@ -92,10 +92,12 @@
 .headtext__cormorant {
   font-family: var(--font-base);
   color: var(--color-golden);
-  font-size: 64px;
+  font-size: 40px;
   line-height: 83.2px;
   letter-spacing: 0.04em;
   text-transform: capitalize;
+  justify-content: center;
+  align-items: center;
 }
 
 .spoon__img {
@@ -175,4 +177,60 @@
     font-size: 45px;
     line-height: 70px;
   }
+}
+
+.input-box-2 {
+  border: none;
+  outline: none;
+  font-size: medium;
+  border-radius: 4px;
+  margin: 0.2rem;
+
+  width: 180px;
+  height: 18px;
+}
+
+.custom__button-2 {
+  background-color: var(--color-crimson);
+    color: var(--color-black);
+    font-family: var(--font-base);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 28px;
+    font-size: 16px;
+    padding: 0.5rem 0.5rem;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 180px;
+    align-self: center;
+}
+
+.sec__pad {
+  padding: 12rem 36rem;
+}
+
+.custom__button-3 {
+  background-color: var(--color-crimson);
+    color: var(--color-black);
+    font-family: var(--font-base);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 28px;
+    font-size: 16px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 190px;
+    align-self: center;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
