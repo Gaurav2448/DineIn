@@ -11,17 +11,43 @@ const SignupPage=()=>{
     const navigate=useNavigate();
    
     return (
-        <div className="signup-page">
-            <br />
-            <label htmlFor="email">Email</label>
-            <input id="email" onChange={e=>setEmail(e.target.value)} value={email} type="email" required placeholder="Enter your email" />
-            <br /><br />
-            <label htmlFor="pass">Password</label>
-            <input id="pass" onChange={e=>setPassword(e.target.value)} value={password} type="password" required placeholder="Enter your password"/>
-            <br /><br />
-            <button onClick={()=>{firebase.signupGoogle();navigate('/')}}>Signup with Google</button>
-            <br />
-            <button onClick={()=>{firebase.signupuser(email,password);navigate('/login')}}>Signup</button>
+        <div className="signup-page app__bg app__wrapper align">
+
+            <div className="flex justify-center items-center">
+
+            <div>
+
+            <h3 className="headtext__cormorant" style={{ marginBottom: '1rem' }}>Sign up</h3>
+
+            <form>
+
+                <div>  
+                    <label><p className="p__cormorant" style={{ color: '#DCCA87' }}>Email :</p></label>
+                    <input onChange={e=>setEmail(e.target.value)} value={email} type="email" required placeholder="Enter your email" className='input-box-2' />
+                </div>
+
+        
+
+                <div>
+                    <label><p className="p__cormorant" style={{ color: '#DCCA87' }}>Password :</p></label>
+                    <input onChange={e=>setPassword(e.target.value)} value={password} type="password" required placeholder="Enter your password" className='input-box-2'/>
+                </div>
+
+                <div>
+                
+                <button type="button" className="custom__button-3" style={{ marginTop: '2rem' } } onClick={()=>{firebase.signupGoogle();navigate('/')}}>Signup with Google</button>        
+                </div>
+
+                <div>
+                <button type="button" className="custom__button-3" style={{ marginTop: '2rem' } } onClick={()=>{firebase.signupuser(email,password);navigate('/login')}}>Signup</button>        
+                </div>
+
+            </form>
+
+        </div>
+
+            </div>
+
         </div>
     )
 }

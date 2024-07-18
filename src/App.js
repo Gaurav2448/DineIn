@@ -9,11 +9,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AboutUs, Footer, Laurels, SpecialMenu } from './container';
 import Login from './Routes/Login';
 import { Logout } from './Routes/Logout';
+import MaybeShowComp from './Routes/MayBeShowComp';
+
 const App = () => (
   <div>
     <BrowserRouter>
       
-      <Navbar/>
+      <MaybeShowComp>
+        <Navbar/>
+      </MaybeShowComp>
+      
       
         <Routes>
 
@@ -22,14 +27,18 @@ const App = () => (
           <Route path='/Menu' element={<SpecialMenu/>}/>
           <Route path='/Awards' element={<Laurels/>}/>
           <Route path='/Book' element={<Book/>}/>
-          <Route path='/Signup' element={<SignupPage/>}/>
-          <Route path='/Login' element={<Login/>}/>
+          <Route path='/signup' element={<SignupPage/>}/>
+          
+          <Route path='/login' element={<Login/>}/>
+          
           <Route path='/Logout' element={<Logout/>}/>
           
         </Routes>
 
-        <Footer/>
-    
+        <MaybeShowComp>
+          <Footer/>
+        </MaybeShowComp>
+
     </BrowserRouter>
 
   </div>
