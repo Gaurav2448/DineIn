@@ -3,7 +3,11 @@ import { createContext, useContext,useEffect,useState } from "react";
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut } from "firebase/auth";
 // import { getDatabase } from "firebase/database";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+ 
+import firebase from "firebase/compat/app";
 const FirebaseContext=createContext(null);
+
 
 
 const firebaseConfig = {
@@ -20,6 +24,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth=getAuth(firebaseApp);
 const googleProvider=new GoogleAuthProvider();
+const firestore = getFirestore(firebaseApp);
 
 export const useFirebase=()=>useContext(FirebaseContext);
 
@@ -46,8 +51,19 @@ export const FirebaseProvider=({ children })=>{
     const logout=()=>{
         signOut(auth);
     }
+
+    const handleBookings = async (uname, phone, email, date, time) => {
+        await addDoc(collection(firestore, 'bookings'),{
+            uname,
+            phone,
+            email,
+            date,
+            time
+        })
+        
+    }
     return(
-        <FirebaseContext.Provider value={{signupuser,signupGoogle,user,logout}}>
+        <FirebaseContext.Provider value={{signupuser,signupGoogle,user,logout,handleBookings}}>
             {children}
         </FirebaseContext.Provider>
     )

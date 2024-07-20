@@ -9,7 +9,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AboutUs, Footer, Laurels, SpecialMenu } from './container';
 import Login from './Routes/Login';
 import { Logout } from './Routes/Logout';
-import MaybeShowComp from './Routes/MayBeShowComp';
+
+import MaybeShowComp from './Routes/MaybeShowComp';
 
 const App = () => (
   <div>

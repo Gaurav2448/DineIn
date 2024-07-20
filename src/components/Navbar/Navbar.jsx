@@ -26,9 +26,7 @@ const Navbar = () => {
 
       <div className="app_navbar-login">
         <NavLink to='/book' className="p__opensans">Book</NavLink>
-        <div />
-        <NavLink to='/view' className="p__opensans">View</NavLink>
-        <div />
+        <div/>
         {user ? (
           <li onClick={logout} className="p__opensans"><NavLink to='/logout'>Logout</NavLink></li>
         ) : (
