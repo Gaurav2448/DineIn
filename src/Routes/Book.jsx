@@ -1,24 +1,47 @@
-import React, { useState } from 'react'
-import { getDatabase,ref,set } from 'firebase/database';
-import { app } from '../firebase';
-
+import React, { useState } from 'react';
 import { SubHeading } from '../components';
 import { images } from '../constants';
 import './Book.css';
-// import { GiMailShirt } from 'react-icons/gi';
-
-const db=getDatabase(app);
+import { toast } from 'react-toastify';
+import { useFirebase } from '../context/Firebase';
 
 const Book = () => {
+  const firebase = useFirebase();
+  const [user, setUser] = useState({
+    uname: "",
+    phone: "",
+    email: "",
+    date: "",
+    time: "", 
+  });
 
-  const putdata=()=>{
-    set(ref(db, 'book/'), {
-      username: "Gaurav",
-      email: "gauravshirke895@gmail.com"
+
+
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    setUser({
+      ...user,
+      [name]: value,
     });
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPhone=(phone)=>{
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
   }
 
-  const [selectedDate, setSelectedDate] = useState('');
+  const isValidName = (name) => {
+    const nameRegex = /^[a-zA-Z\s-]+$/;
+    return nameRegex.test(name);
+  };
+
 
   const handleDateChange = (event) => {
     const { value } = event.target;
@@ -26,113 +49,113 @@ const Book = () => {
     const selectedDate = new Date(value);
 
     if (selectedDate > currentDate) {
-      setSelectedDate(value);
+      setUser({
+        ...user,
+        date: value, // Update the date state
+      });
     } else {
-      alert('Please select a future date.');
-      setSelectedDate('');
+      toast.error('Please select a future date.');
     }
   };
 
+  const handleTimeChange = (e) => {
+    setUser({
+      ...user,
+      time: e.target.value, // Update the time state
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if( !isValidEmail(user.email) ){
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    if(!isValidPhone(user.phone) ){
+      toast.error('Please enter a valid phone number');
+      return;
+    }
+
+    if(!isValidName(user.uname) ){
+      toast.error('Please enter a valid name');
+      return;
+    }
+    if(user.time===''){
+      toast.error('Please select time');
+      return;
+    }
+    console.log(user);
+
+
+    await firebase.handleBookings(user.uname , user.phone, user.email, user.date, user.time);
+    
+  };
 
   return (
-    <div className="app__bg app__wrapper section__padding" id="contact">
-  
-    <div className="app__wrapper_info">
-  
-      <SubHeading title="Contact" />
-  
-      <h1 className="headtext__cormorant" style={{ marginBottom: '3rem' }}>Booking</h1>
-  
-      <div className="app__wrapper-content">
-  
-        <p className="p__opensans">Lane Ends Bungalow, Whatcroft Hall Lane, Rudheath, CW9 75G</p>
-        <p className="p__cormorant" style={{ color: '#DCCA87', margin: '2rem 0' }}>Opening Hours</p>
-        <p className="p__opensans">Mon - Fri: 10:00 am - 02:00 am</p>
-        <p className="p__opensans">Sat - Sun: 10:00 am - 03:00 am</p>
-  
-      </div >
-
-      <div>
-      
-      <form>
-
-        <table >
-        
-
-        <tr style={{marginBottom: '2rem'}}>  
-          <td><p className="p__cormorant" style={{ color: '#DCCA87' }}>Name :</p></td>
-          <td><input type="text" className='input-box' style={{marginBottom: '2rem'}}/></td>
-        </tr>
-
-        
-
-        <tr>
-          <td><p className="p__cormorant" style={{ color: '#DCCA87' }}>Phone No. :</p></td>
-          <td><input type="text" className='input-box'/></td>
-        </tr>
-
-      
-
-
-        <tr>
-          <td><p className="p__cormorant" style={{ color: '#DCCA87' }}>Email Id :</p></td>
-          <td><input type="email" className='input-box'/></td>
-        </tr>
-
-
-        <tr>
-        <td><p className="p__cormorant" style={{ color: '#DCCA87' }}>Date :</p></td>
-        
-        <td><input
-        type="date"
-        id="dateInput"
-        value={selectedDate}
-        className='input-box'
-        onChange={handleDateChange}
-        /></td>
-
-        </tr>
-
-  
-
-        <tr>
-        <td><p className="p__cormorant" style={{ color: '#DCCA87' }}>Time :</p></td>
-          
-        <td>
-          <select className='input-box'>
-
-            <option value="0">---Default---</option>
-            <option value="1">18:00 - 19:00</option>
-            <option value="2">19:00 - 20:00</option>
-            <option value="3">20:00 - 21:00</option>
-            <option value="4">21:00 - 22:00</option>
-            <option value="5">22:00 - 23:00</option>
-
-          </select>
-        </td>
-        </tr>
-
-
-
-        </table>
-
-    </form>
-
+    <div className="app_bg appwrapper section_padding" id="contact">
+      <div className="app__wrapper_info">
+        <SubHeading title="Contact" />
+        <h1 className="headtext__cormorant" style={{ marginBottom: '3rem' }}>Booking</h1>
+        <div className="app__wrapper-content">
+          <p className="p__opensans">Lane Ends Bungalow, Whatcroft Hall Lane, Rudheath, CW9 75G</p>
+          <p className="p__cormorant" style={{ color: '#DCCA87', margin: '2rem 0' }}>Opening Hours</p>
+          <p className="p__opensans">Mon - Fri: 10:00 am - 02:00 am</p>
+          <p className="p__opensans">Sat - Sun: 10:00 am - 03:00 am</p>
+        </div>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <table>
+            <tbody>
+              <tr>
+                <td><p className="p__cormorant tdcol" style={{ color: '#DCCA87' }}>Name :</p></td>
+                <td><input type="text" className='input-box tdcol' name='uname' required autoComplete="off" value={user.uname} onChange={handleInput} /></td>
+              </tr>
+              <tr>
+                <td><p className="p__cormorant tdcol" style={{ color: '#DCCA87' }}>Phone No. :</p></td>
+                <td><input type="text" className='input-box tdcol' name='phone' required autoComplete="off" value={user.phone} onChange={handleInput} /></td>
+              </tr>
+              <tr>
+                <td><p className="p__cormorant tdcol" style={{ color: '#DCCA87' }}>Email Id :</p></td>
+                <td><input type="email" className='input-box tdcol' name='email'  required autoComplete="off" value={user.email} onChange={handleInput} /></td>
+              </tr>
+              <tr>
+                <td><p className="p__cormorant tdcol" style={{ color: '#DCCA87' }}>Date :</p></td>
+                <td><input
+                  type="date"
+                  id="dateInput"
+                  className='input-box tdcol'
+                  name='date' placeholder='date' required autoComplete="off" value={user.date} onChange={handleDateChange}
+                /></td>
+              </tr>
+              <tr>
+                <td><p className="p__cormorant tdcol" style={{ color: '#DCCA87' }}>Time :</p></td>
+                <td>
+                  <select
+                    className='input-box tdcol'
+                    value={user.time} // Bind the value to the state
+                    onChange={handleTimeChange} // Handle time selection
+                  >
+                    <option value="">---Default---</option>
+                    <option value="18:00 - 19:00">18:00 - 19:00</option>
+                    <option value="19:00 - 20:00">19:00 - 20:00</option>
+                    <option value="20:00 - 21:00">20:00 - 21:00</option>
+                    <option value="21:00 - 22:00">21:00 - 22:00</option>
+                    <option value="22:00 - 23:00">22:00 - 23:00</option>
+                  </select>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <button type="submit" className="custom__button btn" style={{ marginTop: '2rem' }}>Appointment</button>
+          </form>
+        </div>
       </div>
-  
-      <button type="button" className="custom__button" style={{ marginTop: '2rem' }} onClick={putdata}>Appointment</button>
-  
+      <div className="app__wrapper_img">
+        <img src={images.findus} alt="finus_img" />
+      </div>
     </div>
+  );
+};
 
-
-    <div className="app__wrapper_img">
-  
-      <img src={images.findus} alt="finus_img" />
-  
-    </div>
-  
-  </div>
-  )
-}
-
-export default Book
+export default Book;
